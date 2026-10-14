@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mini Implicit Association Test</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <section id="welcome-screen" class="panel">
+      <h1>Mini Implicit Association Test</h1>
+      <p>Sort Black and White people <strong>images</strong> and pleasant and unpleasant <strong>words</strong> as quickly and accurately as possible.</p>
+      <p>Press <kbd>E</kbd> for the left category and <kbd>I</kbd> for the right category. Correct mistakes by pressing the other key.</p>
+      <p>This demo has 5 blocks with 4 trials each. Its score is <strong>NOT scientifically interpretable</strong> with so few trials.</p>
+      <button id="start-button">Start test</button>
+    </section>
+
+    <section id="instructions-screen" class="panel" hidden>
+      <p id="instructions-progress" class="meta"></p>
+      <h1 id="instructions-title"></h1>
+      <p id="instructions-text"></p>
+      <div class="mappings">
+        <div class="mapping"><kbd>E</kbd><div id="instructions-left"></div></div>
+        <div class="mapping"><kbd>I</kbd><div id="instructions-right"></div></div>
+      </div>
+      <button id="continue-button">Begin block</button>
+    </section>
+
+    <section id="test-screen" class="panel test-panel" hidden>
+      <header class="progress"><span id="block-info"></span><span id="trial-info"></span></header>
+      <div class="mappings">
+        <div class="mapping"><kbd>E</kbd><div id="left-label"></div></div>
+        <div class="mapping"><kbd>I</kbd><div id="right-label"></div></div>
+      </div>
+      <div id="stimulus-container" aria-label="Current stimulus">
+        <img id="stimulus-image" alt="" hidden>
+        <div id="stimulus-word" hidden></div>
+        <p id="feedback" role="status" aria-live="polite"></p>
+      </div>
+
+    <!-- NEW: Touchscreen buttons -->
+    <div id="response-buttons">
+        <button id="left-button" type="button">
+            LEFT (E)
+        </button>
+
+        <button id="right-button" type="button">
+            RIGHT (I)
+        </button>
+    </div>
+    </section>
+
+    <section id="completion-screen" class="panel" hidden>
+      <h1>Test complete</h1>
+      <p>Demonstration D-score</p>
+      <div id="d-score" class="score">--</div>
+      <p id="score-interpretation"></p>
+      <p id="score-details" class="meta"></p>
+      <button id="restart-button">Restart</button>
+    </section>
+  </main>
+</body>
+</html>
