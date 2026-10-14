@@ -117,18 +117,12 @@ function presentTrial() {
   const block = blocks[blockIndex];
   const trial = block.trials[trialIndex];
 
-  $("block-info").textContent =
-    `Block ${blockIndex + 1} of ${blocks.length}`;
-
-  $("trial-info").textContent =
-    `Trial ${trialIndex + 1} of ${block.trials.length}`;
-
-  $("left-label").textContent =
-    block.left.join("\nOR\n");
-
-  $("right-label").textContent =
-    block.right.join("\nOR\n");
-
+  $("block-info").textContent = `Block ${blockIndex + 1} of ${blocks.length}`;
+  $("trial-info").textContent = `Trial ${trialIndex + 1} of ${block.trials.length}`;
+  $("left-label").textContent = block.left.join("\nOR\n");
+  $("right-label").textContent = block.right.join("\nOR\n");
+  $("left-button").textContent = block.left.join(" / ");
+  $("right-button").textContent = block.right.join(" / ");
   $("feedback").textContent = "";
 
   const img = $("stimulus-image");
