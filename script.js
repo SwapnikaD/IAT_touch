@@ -90,17 +90,10 @@ function showScreen(id) {
 // Display instructions before each block.
 function showBlockInstructions() {
   awaitingResponse = false;
-
   const block = blocks[blockIndex];
-
-  $("instructions-progress").textContent =
-    `Block ${blockIndex + 1} of ${blocks.length}`;
-
+  $("instructions-progress").textContent =`Block ${blockIndex + 1} of ${blocks.length}`;
   $("instructions-title").textContent = block.title;
-
-  $("instructions-text").textContent =
-    "Categorize each stimulus using these key mappings:";
-
+  $("instructions-text").textContent = "Tap the correct category for each image or word.";
   showScreen("instructions-screen");
 }
 
@@ -113,8 +106,6 @@ function presentTrial() {
 
   $("block-info").textContent = `Block ${blockIndex + 1} of ${blocks.length}`;
   $("trial-info").textContent = `Trial ${trialIndex + 1} of ${block.trials.length}`;
-  $("left-label").textContent = block.left.join("\nOR\n");
-  $("right-label").textContent = block.right.join("\nOR\n");
   $("left-button").textContent = block.left.join(" / ");
   $("right-button").textContent = block.right.join(" / ");
   $("feedback").textContent = "";
@@ -122,39 +113,40 @@ function presentTrial() {
   const img = $("stimulus-image");
   const word = $("stimulus-word");
 
-  img.hidden = trial.type !== "image";
-  word.hidden = trial.type !== "word";
+    img.onload = null;
+    img.onerror = null;
 
-  if (trial.type === "image") {
-    img.src = trial.value;
-    img.alt = `${trial.category} picture`;
-    word.textContent = "";
-  } else {
-    img.removeAttribute("src");
-    word.textContent = trial.value;
-  }
+    img.hidden = true;
+    word.hidden = true;
 
-  hadError = false;
+    hadError = false;
 
+    if (trial.type === "image") {
+        img.alt = `${trial.category} picture`;
+        img.onload = () => {
+            img.onload = null;
+            img.hidden = false;
+            startedAt = performance.now();
+            awaitingResponse = true;
+        };
+        img.onerror = () => {
+            $("feedback").textContent =
+                "Image missing. Check images folder.";
+        };
+        img.src = trial.value;
+
+    } else {
+        img.removeAttribute("src");
+        word.textContent = trial.value;
+        word.hidden = false;
+    }
   showScreen("test-screen");
 
-  // Start timing after the image has loaded.
-  if (trial.type === "image" && !img.complete) {
-    img.onload = () => {
-      img.onload = null;
-      startedAt = performance.now();
-      awaitingResponse = true;
-    };
-
-    img.onerror = () => {
-      img.onload = null;
-      $("feedback").textContent =
-        "Image missing. Check the images folder.";
-    };
-  } else {
-    startedAt = performance.now();
-    awaitingResponse = true;
-  }
+    // Start timing word trials immediately
+    if (trial.type === "word") {
+        startedAt = performance.now();
+        awaitingResponse = true;
+    }
 }
 
 
