@@ -101,12 +101,6 @@ function showBlockInstructions() {
   $("instructions-text").textContent =
     "Categorize each stimulus using these key mappings:";
 
-  $("instructions-left").textContent =
-    block.left.join("\nOR\n");
-
-  $("instructions-right").textContent =
-    block.right.join("\nOR\n");
-
   showScreen("instructions-screen");
 }
 
